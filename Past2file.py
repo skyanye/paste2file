@@ -5,6 +5,7 @@ import pyperclip
 import keyboard
 
 from PIL import ImageGrab
+from win11toast import toast
 
 
 class SaveClipboardPicToFile(object):
@@ -40,6 +41,12 @@ class SaveClipboardPicToFile(object):
         """
         pyperclip.copy("![[%s]]" % self.img_name)
 
+    def toastNotification(self):
+        """
+        给windows系统发送一个右下脚的通知
+        """
+        toast("已复制", "已保存图片文件，请按ctrl+v粘贴Markdown")
+
     def save2file(self):
         self._createFileName()
         self._createImgObject()
@@ -51,7 +58,8 @@ def on_hotkey():
     img.chdirToWorkdir()
     img.save2file()
     img.getMarkdownCode()
-    print("已保存图片文件，请按ctrl+v粘贴Markdown")
+    img.toastNotification()
+    # print("已保存图片文件，请按ctrl+v粘贴Markdown")
 
 
 if __name__=="__main__":
